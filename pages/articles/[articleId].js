@@ -1,21 +1,20 @@
-import { Button, CardMedia, Stack, CircularProgress } from "@mui/material";
+import { Button, CardMedia, Stack } from "@mui/material";
 import { Container } from "@mui/system";
 import axios from "axios";
-import { capitalize, isEmpty, map, upperCase } from "lodash";
+import { map, upperCase } from "lodash";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React, { Fragment } from "react";
 
 const ArticlePage = ({ data }) => {
-  const { isFallback } = useRouter();
+  // const { isFallback } = useRouter();
 
-  if (isFallback)
-    return (
-      <Stack height={"100vh"} alignItems="center" justifyContent="center">
-        <CircularProgress />
-      </Stack>
-    );
+  // if (isFallback)
+  //   return (
+  //     <Stack height={"100vh"} alignItems="center" justifyContent="center">
+  //       <CircularProgress />
+  //     </Stack>
+  //   );
 
   return (
     <Fragment>

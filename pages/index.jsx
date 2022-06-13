@@ -17,6 +17,12 @@ export default function Index() {
           </Button>
         </Link>
 
+        <Link href={"/users"}>
+          <Button color="error" variant="contained">
+            All Users
+          </Button>
+        </Link>
+
         <Button
           onClick={() => {
             console.log("navigate to page");
