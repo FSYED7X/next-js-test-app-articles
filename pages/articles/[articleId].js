@@ -1,12 +1,22 @@
-import { Button, CardMedia, Stack } from "@mui/material";
+import { Button, CardMedia, Stack, CircularProgress } from "@mui/material";
 import { Container } from "@mui/system";
 import axios from "axios";
-import { capitalize, map, upperCase } from "lodash";
+import { capitalize, isEmpty, map, upperCase } from "lodash";
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { Fragment } from "react";
 
 const ArticlePage = ({ data }) => {
+  const { isFallback } = useRouter();
+
+  if (isFallback)
+    return (
+      <Stack height={"100vh"} alignItems="center" justifyContent="center">
+        <CircularProgress />
+      </Stack>
+    );
+    
   return (
     <Fragment>
       <Head>
@@ -46,11 +56,14 @@ export async function getStaticPaths() {
 
   return {
     paths: map(data, ({ id }) => ({ params: { articleId: id } })),
-    fallback: false,
+    fallback: true,
   };
 }
 
 export async function getStaticProps({ params: { articleId } }) {
   const { data } = await axios(`post/${articleId}`);
+
+  if (isEmpty(data)) return { notFound: true };
+
   return { props: { data } };
 }
