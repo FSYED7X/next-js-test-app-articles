@@ -16,7 +16,7 @@ const ArticlePage = ({ data }) => {
         <CircularProgress />
       </Stack>
     );
-    
+
   return (
     <Fragment>
       <Head>
@@ -56,14 +56,15 @@ export async function getStaticPaths() {
 
   return {
     paths: map(data, ({ id }) => ({ params: { articleId: id } })),
-    fallback: true,
+    fallback: "blocking",
   };
 }
 
 export async function getStaticProps({ params: { articleId } }) {
-  const { data } = await axios(`post/${articleId}`);
-
-  if (isEmpty(data)) return { notFound: true };
-
-  return { props: { data } };
+  try {
+    const { data } = await axios(`post/${articleId}`);
+    return { props: { data } };
+  } catch (error) {
+    return { notFound: true };
+  }
 }
