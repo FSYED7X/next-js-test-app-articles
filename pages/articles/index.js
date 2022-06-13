@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import Head from "next/head";
 import axios from "axios";
 import { Container } from "@mui/system";
 import { map } from "lodash";
@@ -9,6 +10,10 @@ import Grid from "@mui/material/Grid";
 export default function Articles({ data, pagination }) {
   return (
     <div>
+      <Head>
+        <title>Articles</title>
+      </Head>
+
       <Container>
         <h1>List of articles</h1>
 

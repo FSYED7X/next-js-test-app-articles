@@ -1,43 +1,41 @@
-import { Button, CardMedia } from "@mui/material";
-import { useRouter } from "next/router";
-import React from "react";
-import Link from "next/link";
-import axios from "axios";
-import { map } from "lodash";
-import Image from "next/image";
+import { Button, CardMedia, Stack } from "@mui/material";
 import { Container } from "@mui/system";
+import axios from "axios";
+import { capitalize, map, upperCase } from "lodash";
+import Head from "next/head";
+import Link from "next/link";
+import React, { Fragment } from "react";
 
 const ArticlePage = ({ data }) => {
-  // console.log(data);
-  // const {
-  //   query: { articleId },
-  // } = useRouter();
-
-  // console.log(articleId);
-
   return (
-    <Container>
-      <h1>{data?.text}</h1>
+    <Fragment>
+      <Head>
+        <title>{upperCase(data?.text)}</title>
+      </Head>
+      <Container>
+        <h1>{data?.text}</h1>
 
-      <CardMedia
-        component="img"
-        sx={{ aspectRatio: "16/9" }}
-        image={data?.image}
-        alt="Paella dish"
-      />
+        <CardMedia
+          sx={{ aspectRatio: "24/9", height: "100%", width: "100%", mb: 2 }}
+          image={data?.image}
+          alt="Paella dish"
+        />
 
-      <Link href={"/articles"}>
-        <Button color="secondary" variant="contained">
-          Back to All articles
-        </Button>
-      </Link>
+        <Stack direction="row" spacing={3}>
+          <Link href={"/articles"}>
+            <Button color="secondary" variant="contained">
+              Back to All articles
+            </Button>
+          </Link>
 
-      <Link href={"/"}>
-        <Button color="success" variant="contained">
-          Home
-        </Button>
-      </Link>
-    </Container>
+          <Link href={"/"}>
+            <Button color="success" variant="contained">
+              Home
+            </Button>
+          </Link>
+        </Stack>
+      </Container>
+    </Fragment>
   );
 };
 
@@ -45,8 +43,6 @@ export default ArticlePage;
 
 export async function getStaticPaths() {
   const { data: { data = [] } = {} } = await axios(`post`);
-
-  // console.log(map(data, ({ id }) => ({ params: { articleId: id } })));
 
   return {
     paths: map(data, ({ id }) => ({ params: { articleId: id } })),
@@ -56,8 +52,5 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params: { articleId } }) {
   const { data } = await axios(`post/${articleId}`);
-
-  // console.log(data);
-
   return { props: { data } };
 }
